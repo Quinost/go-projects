@@ -1,0 +1,20 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Debug Healthchecker",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}/healthchecker"
+        },
+        {
+            "name": "Debug Workerpool",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}/workerpool-thumbnail/web",
+            "cwd": "${workspaceFolder}/workerpool-thumbnail"
+        }
+    ]
+}

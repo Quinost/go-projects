@@ -1,0 +1,36 @@
+sites:
+  - url: "https://httpbin.org/status/200"
+    interval: 30s
+  
+  - url: "https://jsonplaceholder.typicode.com/posts/1"
+    interval: 45s
+  
+  - url: "https://api.github.com/zen"
+    interval: 60s
+  
+  - url: "https://httpstat.us/200"
+    interval: 30s
+  
+  - url: "https://www.google.com"
+    interval: 120s
+    
+  - url: "https://www.cloudflare.com"
+    interval: 90s
+    
+  - url: "https://status.github.com/api/status.json"
+    interval: 60s
+    
+  - url: "https://www.mozilla.org"
+    interval: 180s
+  
+  - url: "https://reqres.in/api/users/1"
+    interval: 45s
+    
+  - url: "https://httpbin.org/delay/1"
+    interval: 180s
+    
+  - url: "https://postman-echo.com/get"
+    interval: 60s
+
+settings:
+  request_timeout: 10s
