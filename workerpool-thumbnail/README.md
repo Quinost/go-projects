@@ -1,0 +1,1 @@
+Implementation of worker pool in the thumbnail service

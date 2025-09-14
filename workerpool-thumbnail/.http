@@ -1,0 +1,45 @@
+@baseUrl = http://localhost:8080
+
+GET {{baseUrl}}
+
+###
+POST {{baseUrl}}/upload
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="images"; filename="img1.jpg"
+Content-Type: image/jpeg
+
+< ./Images/img1.jpg
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="images"; filename="img2.jpg"
+Content-Type: image/jpeg
+
+< ./Images/img2.jpg
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="images"; filename="img3.jpg"
+Content-Type: image/jpeg
+
+< ./Images/img3.jpg
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="images"; filename="img4.jpg"
+Content-Type: image/jpeg
+
+< ./Images/img4.jpg
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="images"; filename="img5.jpg"
+Content-Type: image/jpeg
+
+< ./Images/img5.jpg
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="images"; filename="img6.jpg"
+Content-Type: image/jpeg
+
+< ./Images/img6.jpg
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
