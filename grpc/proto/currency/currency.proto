@@ -1,0 +1,30 @@
+syntax = "proto3";
+
+package currency;
+option go_package = "grpc/proto/currency";
+
+service CurrencyService {
+    rpc ConvertCurrency(ConvertRequest) returns (ConvertResponse);
+    rpc GetAllCurrencies(Empty) returns (CurrencyList);
+}
+message Empty {}
+
+message Currency {
+    string code = 1;
+    string name = 2;
+}
+
+message CurrencyList {
+    repeated Currency currencies = 1;
+}
+
+message ConvertRequest {
+    string from_currency = 1;
+    string to_currency = 2;
+    string amount = 3;
+}
+
+message ConvertResponse {
+    string converted_amount = 1;
+    string currency = 2;
+}

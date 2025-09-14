@@ -1,0 +1,27 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Generate All gRPC Services",
+            "type": "shell",
+            "command": "protoc",
+            "args": [
+                "--go_out=.",
+                "--go_opt=paths=source_relative", 
+                "--go-grpc_out=.",
+                "--go-grpc_opt=paths=source_relative",
+                "proto/*/*.proto"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}/grpc"
+            },
+            "group": "build",
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "new"
+            }
+        }
+    ]
+}

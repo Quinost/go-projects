@@ -17,6 +17,7 @@ func main() {
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 
+	//Move workers to config
 	pool := worker.NewPool[thumbnail.ThumbnailJob](2, 100)
 	pool.Start(ctx)
 	thumbnailService := thumbnail.NewThumbnailService(pool)

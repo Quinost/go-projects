@@ -14,7 +14,36 @@
             "request": "launch",
             "mode": "auto",
             "program": "${workspaceFolder}/workerpool-thumbnail/web",
-            "cwd": "${workspaceFolder}/workerpool-thumbnail"
+        },
+        {
+            "name": "Debug Restapi",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}/restapi/api"
+        },
+        {
+            "name": "Debug gRPC Currency Service",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}/grpc/currency-provider",
+        },
+        {
+            "name": "Debug gRPC Api",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}/grpc/api",
+        },
+    ],
+        "compounds": [
+        {
+            "name": "Debug both gRPC",
+            "configurations": [
+                "Debug gRPC Currency Service",
+                "Debug gRPC Api"
+            ]
         }
     ]
 }
