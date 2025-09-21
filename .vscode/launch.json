@@ -36,8 +36,15 @@
             "mode": "auto",
             "program": "${workspaceFolder}/grpc/api",
         },
+        {
+            "name": "Debug Warehouse",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}/warehouse",
+        }
     ],
-        "compounds": [
+    "compounds": [
         {
             "name": "Debug both gRPC",
             "configurations": [

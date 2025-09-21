@@ -1,0 +1,4 @@
+database:
+  driver: "postgres"
+  connection_string: "postgres://postgres:!1password@localhost:5433/warehouse?sslmode=disable"
+  seed: false

@@ -1,0 +1,1 @@
+You can use the vscode `Run warehouse migrator tasks` to run migrations. To push data add `--seed`
