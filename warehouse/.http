@@ -1,0 +1,28 @@
+@baseUrl = http://172.21.128.22:8080/
+
+GET {{baseUrl}}items/d71c7448-34b0-4b4a-b90b-261a7226f1d1
+
+###
+
+GET {{baseUrl}}items?filter=&page=1&limit=10
+
+### ADD item
+POST http://localhost:8080/items
+Content-Type: application/json
+
+{
+  "name": "Banana",
+  "description": "Yellow fruit"
+}
+
+### UPDATE item
+PUT http://localhost:8080/items/868c12c9-ba94-4e17-b428-26d1ff7b5fd5
+Content-Type: application/json
+
+{
+  "name": "Banana (Updated)",
+  "description": "Ripe yellow fruit"
+}
+
+### DELETE item
+DELETE http://localhost:8080/items/868c12c9-ba94-4e17-b428-26d1ff7b5fd5
