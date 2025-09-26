@@ -2,19 +2,21 @@ package handlers
 
 import (
 	"encoding/json"
-	"fmt"
 	"net/http"
-	"strconv"
 	"strings"
 	"warehouse/internal/models"
-	"warehouse/internal/repositories"
-
-	"github.com/google/uuid"
+	"warehouse/internal/services"
 )
 
 type ItemHandler struct {
 	Handler
-	repo *repositories.ItemRepository
+	service *services.ItemService
+}
+
+func NewItemHandler(service *services.ItemService) *ItemHandler {
+	return &ItemHandler{
+		service: service,
+	}
 }
 
 func (h *ItemHandler) HandleItems(w http.ResponseWriter, r *http.Request) {
@@ -38,40 +40,31 @@ func (h *ItemHandler) HandleItems(w http.ResponseWriter, r *http.Request) {
 }
 
 func (h *ItemHandler) GetById(w http.ResponseWriter, r *http.Request) {
-	uid := h.extractID(r.URL.Path)
-	item, err := h.repo.GetById(uid)
+	uid := h.extractUUIDs(r.URL.Path)[0]
+
+	item, err := h.service.GetById(uid)
 	if err != nil {
-		w.WriteHeader(http.StatusBadRequest)
+		writeError(w, http.StatusBadRequest, err.Error())
+		return
 	}
 
-	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(http.StatusOK)
-	json.NewEncoder(w).Encode(item)
+	writeOkJson(w, item)
 }
 
 func (h *ItemHandler) GetAll(w http.ResponseWriter, r *http.Request) {
 	query := r.URL.Query()
 
-	var page, limit int
-	filter := query.Get("filter")
+	filter := parseQueryParam[string](query, "filter")
+	page := parseQueryParam[int](query, "page") - 1
+	limit := parseQueryParam[int](query, "limit")
 
-	if parsed, err := strconv.Atoi(query.Get("page")); err == nil {
-		page = parsed - 1
-	}
-
-	if parsed, err := strconv.Atoi(query.Get("limit")); err == nil {
-		limit = parsed
-	}
-
-	items, err := h.repo.GetAll(filter, page, limit)
+	items, err := h.service.GetAll(filter, page, limit)
 	if err != nil {
-		writeError(w, http.StatusInternalServerError, "Internal server error")
+		writeError(w, http.StatusInternalServerError, err.Error())
 		return
 	}
 
-	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(http.StatusOK)
-	json.NewEncoder(w).Encode(items)
+	writeOkJson(w, items)
 }
 
 func (h *ItemHandler) Add(w http.ResponseWriter, r *http.Request) {
@@ -80,16 +73,14 @@ func (h *ItemHandler) Add(w http.ResponseWriter, r *http.Request) {
 		writeError(w, http.StatusBadRequest, "Invalid JSON")
 		return
 	}
-	item.Id = uuid.New()
 
-	if err := h.repo.Add(&item); err != nil {
-		writeError(w, http.StatusInternalServerError, "Failed to insert item")
+	id, err := h.service.Add(&item)
+	if err != nil {
+		writeError(w, http.StatusBadRequest, err.Error())
 		return
 	}
 
-	w.Header().Set("Location", fmt.Sprintf("/items/%s", item.Id))
-	w.WriteHeader(http.StatusCreated)
-	json.NewEncoder(w).Encode(models.NewResponse(item.Id.String(), models.CreatedStatus))
+	writeCreatedJson(w, id)
 }
 
 func (h *ItemHandler) Update(w http.ResponseWriter, r *http.Request) {
@@ -98,35 +89,24 @@ func (h *ItemHandler) Update(w http.ResponseWriter, r *http.Request) {
 		writeError(w, http.StatusBadRequest, "Invalid JSON")
 		return
 	}
-	item.Id = h.extractID(r.URL.Path)
 
-	if item.Id == uuid.Nil {
-		writeError(w, http.StatusBadRequest, "Invalid JSON")
+	item.Id = h.extractUUIDs(r.URL.Path)[0]
+
+	if err := h.service.Update(item); err != nil {
+		writeError(w, http.StatusBadRequest, err.Error())
 		return
 	}
 
-	existedItem, err := h.repo.GetById(item.Id)
-	if err != nil || existedItem == nil {
-		writeError(w, http.StatusBadRequest, "Item not found")
-		return
-	}
-
-	if err := h.repo.Update(&item); err != nil {
-		writeError(w, http.StatusInternalServerError, "Failed to update item")
-		return
-	}
-
-	w.WriteHeader(http.StatusOK)
-	json.NewEncoder(w).Encode(models.NewResponse("", models.UpdatedStatus))
+	writeOk(w, models.UpdatedStatus)
 }
 
 func (h *ItemHandler) Delete(w http.ResponseWriter, r *http.Request) {
-	uid := h.extractID(r.URL.Path)
+	uid := h.extractUUIDs(r.URL.Path)[0]
 
-	if err := h.repo.Delete(uid); err != nil {
-		w.WriteHeader(http.StatusNotFound)
+	if err := h.service.Delete(uid); err != nil {
+		writeError(w, http.StatusBadRequest, err.Error())
 		return
 	}
 
-	w.WriteHeader(http.StatusNoContent)
+	writeOk(w, models.DeletedStatus)
 }

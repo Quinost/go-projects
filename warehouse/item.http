@@ -1,9 +1,9 @@
 @baseUrl = http://172.21.128.22:8080/
 
-GET {{baseUrl}}items/d71c7448-34b0-4b4a-b90b-261a7226f1d1
+### Get by id
+GET {{baseUrl}}items/1666a2ea-8ddb-40ef-9180-126d2b414c63
 
-###
-
+### Get all
 GET {{baseUrl}}items?filter=&page=1&limit=10
 
 ### ADD item
@@ -16,7 +16,7 @@ Content-Type: application/json
 }
 
 ### UPDATE item
-PUT http://localhost:8080/items/868c12c9-ba94-4e17-b428-26d1ff7b5fd5
+PUT http://localhost:8080/items/378e554a-66e8-4359-8c73-d1badd01849a
 Content-Type: application/json
 
 {
@@ -25,4 +25,4 @@ Content-Type: application/json
 }
 
 ### DELETE item
-DELETE http://localhost:8080/items/868c12c9-ba94-4e17-b428-26d1ff7b5fd5
+DELETE http://localhost:8080/items/378e554a-66e8-4359-8c73-d1badd01849a

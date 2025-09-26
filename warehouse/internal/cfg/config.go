@@ -1,4 +1,4 @@
-package config
+package cfg
 
 import (
 	"os"
@@ -7,13 +7,18 @@ import (
 )
 
 type Config struct {
-	Database Database `yaml:"database"`
+	Server   ServerCfg   `yaml:"server"`
+	Database DatabaseCfg `yaml:"database"`
 }
 
-type Database struct {
+type DatabaseCfg struct {
 	Driver           string `yaml:"driver"`
 	ConnectionString string `yaml:"connection_string"`
 	Seed             bool   `yaml:"seed"`
+}
+
+type ServerCfg struct {
+	Port string `yaml:"port"`
 }
 
 func Load(path string) (*Config, error) {

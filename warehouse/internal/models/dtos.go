@@ -5,7 +5,8 @@ type Status string
 const (
 	CreatedStatus Status = "Created"
 	UpdatedStatus Status = "Updated"
-	ErrorStatus Status = "Error"
+	DeletedStatus Status = "Deleted"
+	ErrorStatus   Status = "Error"
 )
 
 type ItemCreateDto struct {
@@ -29,6 +30,6 @@ func NewResponse(info string, status Status) *Response {
 func ErrorResponse(err string) *Response {
 	return &Response{
 		Status: ErrorStatus,
-		Error: err,
+		Error:  err,
 	}
 }

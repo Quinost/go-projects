@@ -5,20 +5,21 @@ import (
 	"net/http"
 	"warehouse/api/handlers"
 	"warehouse/api/middleware"
-	"warehouse/internal/repositories"
+	"warehouse/internal/cfg"
+	"warehouse/internal/services"
 )
 
 type Server struct {
 	http *http.Server
 }
 
-func NewServer(repo *repositories.Repositories) *Server {
+func NewServer(cfg *cfg.Config, services *services.Services) *Server {
 	mux := http.NewServeMux()
-	registerHandlers(mux, repo)
+	registerHandlers(mux, services)
 	handler := middleware.LogMiddleware(mux)
 
 	s := &Server{&http.Server{
-		Addr:    ":8080",
+		Addr:    cfg.Server.Port,
 		Handler: handler,
 	}}
 
@@ -30,8 +31,8 @@ func (s *Server) Run() error {
 	return s.http.ListenAndServe()
 }
 
-func registerHandlers(mux *http.ServeMux, repo *repositories.Repositories) {
-	h := handlers.New(repo)
+func registerHandlers(mux *http.ServeMux, services *services.Services) {
+	h := handlers.NewHandler(services)
 
 	mux.HandleFunc("/", h.GetDefault)
 	mux.HandleFunc("/items", h.ItemHandler.HandleItems)

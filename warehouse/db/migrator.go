@@ -8,7 +8,7 @@ import (
 	"os"
 	"path/filepath"
 	"strings"
-	"warehouse/internal/config"
+	"warehouse/internal/cfg"
 
 	_ "github.com/lib/pq"
 )
@@ -23,7 +23,7 @@ const (
 )
 
 func main() {
-	cfg, err := config.Load("../config.yaml")
+	cfg, err := cfg.Load("../config.yaml")
 
 	if err != nil {
 		log.Fatalf("Error while reading config: %v", err)
@@ -90,7 +90,7 @@ func populateDatabase(db *sql.DB, appliedMigrations map[string]bool, folder stri
 	}
 }
 
-func createDbIfNotExist(cfg *config.Config) {
+func createDbIfNotExist(cfg *cfg.Config) {
 	dbName, postgres_cs := switchDatabase(cfg.Database.ConnectionString, cfg.Database.Driver)
 	db, err := sql.Open(cfg.Database.Driver, postgres_cs)
 	if err != nil {

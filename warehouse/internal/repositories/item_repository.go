@@ -58,7 +58,7 @@ func (r *ItemRepository) Update(item *models.Item) error {
         UPDATE items
         SET name = $1, description = $2
         WHERE id = $3
-    ` 
+    `
 	_, err := r.db.Exec(query, item.Name, item.Description, item.Id)
 	return err
 }
@@ -67,4 +67,11 @@ func (r *ItemRepository) Delete(id uuid.UUID) error {
 	query := `DELETE FROM items WHERE id = $1`
 	_, err := r.db.Exec(query, id)
 	return err
+}
+
+func (r *ItemRepository) CheckIfNameExist(name string) bool {
+	query := `SELECT 1 FROM items WHERE name = $1 LIMIT 1`
+	var dummy int
+	r.db.QueryRow(query, name).Scan(&dummy)
+	return dummy != 0
 }
