@@ -14,11 +14,13 @@ import (
 
 type Handler struct {
 	ItemHandler *ItemHandler
+	AuthHandler *AuthHandler
 }
 
 func NewHandler(services *services.Services) *Handler {
 	return &Handler{
 		ItemHandler: NewItemHandler(services.ItemService),
+		AuthHandler: NewAuthHandler(services.JWTService),
 	}
 }
 

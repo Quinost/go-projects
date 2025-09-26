@@ -1,14 +1,18 @@
-@baseUrl = http://172.21.128.22:8080/
+@baseUrl = http://localhost:8080
+@token = eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NTkwMDU2NjIsInVzZXJfaWQiOiJiOWRiMzgzMi03NzY4LTRiOGItOGVmNy0zYTQ0NjBmYjgzMmUifQ.bEy3losYvCO9FULtcB6Tjvk7ZYFJblZ-M-BipNcb7sI5HmNauHgE3wHtkmWi2nlTaiGZ6xb_3e9Z8J7VgzxzSw
 
 ### Get by id
-GET {{baseUrl}}items/1666a2ea-8ddb-40ef-9180-126d2b414c63
+GET {{baseUrl}}/items/1666a2ea-8ddb-40ef-9180-126d2b414c63
+Authorization: Bearer {{token}}
 
 ### Get all
-GET {{baseUrl}}items?filter=&page=1&limit=10
+GET {{baseUrl}}/items?filter=&page=1&limit=10
+Authorization: Bearer {{token}}
 
 ### ADD item
-POST http://localhost:8080/items
+POST {{baseUrl}}/items
 Content-Type: application/json
+Authorization: Bearer {{token}}
 
 {
   "name": "Banana",
@@ -16,8 +20,9 @@ Content-Type: application/json
 }
 
 ### UPDATE item
-PUT http://localhost:8080/items/378e554a-66e8-4359-8c73-d1badd01849a
+PUT {{baseUrl}}/items/378e554a-66e8-4359-8c73-d1badd01849a
 Content-Type: application/json
+Authorization: Bearer {{token}}
 
 {
   "name": "Banana (Updated)",
@@ -25,4 +30,5 @@ Content-Type: application/json
 }
 
 ### DELETE item
-DELETE http://localhost:8080/items/378e554a-66e8-4359-8c73-d1badd01849a
+DELETE {{baseUrl}}/items/c523732b-e2ac-43df-9a2d-516c70ff37c0
+Authorization: Bearer {{token}}

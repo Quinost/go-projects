@@ -19,7 +19,7 @@ func main() {
 
 	db, _ := sql.Open(cfg.Database.Driver, cfg.Database.ConnectionString)
 	repo := repositories.InitializeRepositories(db)
-	services := services.InitializeServices(repo)
+	services := services.InitializeServices(cfg, repo)
 	server := api.NewServer(cfg, services)
 
 	if err := server.Run(); err != nil {

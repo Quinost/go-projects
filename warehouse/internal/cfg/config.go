@@ -9,6 +9,7 @@ import (
 type Config struct {
 	Server   ServerCfg   `yaml:"server"`
 	Database DatabaseCfg `yaml:"database"`
+	Auth     AuthCfg     `yaml:"auth"`
 }
 
 type DatabaseCfg struct {
@@ -19,6 +20,10 @@ type DatabaseCfg struct {
 
 type ServerCfg struct {
 	Port string `yaml:"port"`
+}
+
+type AuthCfg struct {
+	Secret string `yaml:"secret"`
 }
 
 func Load(path string) (*Config, error) {

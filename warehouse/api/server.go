@@ -16,7 +16,7 @@ type Server struct {
 func NewServer(cfg *cfg.Config, services *services.Services) *Server {
 	mux := http.NewServeMux()
 	registerHandlers(mux, services)
-	handler := middleware.LogMiddleware(mux)
+	handler := middleware.LogMiddleware(middleware.AuthMiddleware(cfg.Auth.Secret)(mux))
 
 	s := &Server{&http.Server{
 		Addr:    cfg.Server.Port,
@@ -37,4 +37,6 @@ func registerHandlers(mux *http.ServeMux, services *services.Services) {
 	mux.HandleFunc("/", h.GetDefault)
 	mux.HandleFunc("/items", h.ItemHandler.HandleItems)
 	mux.HandleFunc("/items/", h.ItemHandler.HandleItems)
+
+	mux.HandleFunc("/auth/", h.AuthHandler.HandleAuth)
 }
