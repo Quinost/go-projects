@@ -24,6 +24,7 @@ type ServerCfg struct {
 
 type AuthCfg struct {
 	Secret string `yaml:"secret"`
+	Exp    int    `yaml:"exp_min"`
 }
 
 func Load(path string) (*Config, error) {

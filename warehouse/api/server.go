@@ -9,6 +9,10 @@ import (
 	"warehouse/internal/services"
 )
 
+var anonymousPrefixes = []string{
+    "/auth/",
+}
+
 type Server struct {
 	http *http.Server
 }
@@ -16,7 +20,8 @@ type Server struct {
 func NewServer(cfg *cfg.Config, services *services.Services) *Server {
 	mux := http.NewServeMux()
 	registerHandlers(mux, services)
-	handler := middleware.LogMiddleware(middleware.AuthMiddleware(cfg.Auth.Secret)(mux))
+	handler := middleware.LogMiddleware(mux)
+	handler = middleware.AuthMiddleware(cfg.Auth.Secret, anonymousPrefixes)(handler)
 
 	s := &Server{&http.Server{
 		Addr:    cfg.Server.Port,

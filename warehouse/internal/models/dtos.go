@@ -14,22 +14,13 @@ type ItemCreateDto struct {
 	Description string `json:"description"`
 }
 
+type LoginDto struct {
+	Username string `json:"username" validator:"required"`
+	Password string `json:"password" validator:"required"`
+}
+
 type Response struct {
 	Info   string `json:"info,omitempty"`
 	Status Status `json:"status"`
 	Error  string `json:"error,omitempty"`
-}
-
-func NewResponse(info string, status Status) *Response {
-	return &Response{
-		Info:   info,
-		Status: status,
-	}
-}
-
-func ErrorResponse(err string) *Response {
-	return &Response{
-		Status: ErrorStatus,
-		Error:  err,
-	}
 }

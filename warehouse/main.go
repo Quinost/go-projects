@@ -17,12 +17,24 @@ func main() {
 		log.Fatalf("Error loading config %v", err)
 	}
 
-	db, _ := sql.Open(cfg.Database.Driver, cfg.Database.ConnectionString)
-	repo := repositories.InitializeRepositories(db)
+	db, err := sql.Open(cfg.Database.Driver, cfg.Database.ConnectionString)
+	if err != nil {
+		log.Fatalf("Failed opening connection to db %v", err)
+	}
+
+	repo := repo.InitializeRepositories(db)
 	services := services.InitializeServices(cfg, repo)
 	server := api.NewServer(cfg, services)
 
-	if err := server.Run(); err != nil {
-		log.Fatalf("Fatal error %v", err)
-	}
+	errChan := make(chan error)
+
+	go func() {
+		if err := server.Run(); err != nil {
+			errChan <-err
+		}
+	}()
+
+	err = <-errChan
+
+	log.Fatalf("Fatal error %v", err)
 }

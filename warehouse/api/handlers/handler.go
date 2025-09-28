@@ -20,7 +20,7 @@ type Handler struct {
 func NewHandler(services *services.Services) *Handler {
 	return &Handler{
 		ItemHandler: NewItemHandler(services.ItemService),
-		AuthHandler: NewAuthHandler(services.JWTService),
+		AuthHandler: NewAuthHandler(services),
 	}
 }
 

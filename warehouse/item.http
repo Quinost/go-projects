@@ -1,5 +1,5 @@
 @baseUrl = http://localhost:8080
-@token = eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NTkwMDU2NjIsInVzZXJfaWQiOiJiOWRiMzgzMi03NzY4LTRiOGItOGVmNy0zYTQ0NjBmYjgzMmUifQ.bEy3losYvCO9FULtcB6Tjvk7ZYFJblZ-M-BipNcb7sI5HmNauHgE3wHtkmWi2nlTaiGZ6xb_3e9Z8J7VgzxzSw
+@token = 
 
 ### Get by id
 GET {{baseUrl}}/items/1666a2ea-8ddb-40ef-9180-126d2b414c63
@@ -15,7 +15,7 @@ Content-Type: application/json
 Authorization: Bearer {{token}}
 
 {
-  "name": "Banana",
+  "name": "",
   "description": "Yellow fruit"
 }
 

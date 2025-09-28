@@ -5,15 +5,16 @@ import (
 	"log"
 	"warehouse/internal/models"
 	"warehouse/internal/repositories"
+	"warehouse/internal/validator"
 
 	"github.com/google/uuid"
 )
 
 type ItemService struct {
-	repo *repositories.ItemRepository
+	repo *repo.ItemRepository
 }
 
-func NewItemService(repo *repositories.ItemRepository) *ItemService {
+func NewItemService(repo *repo.ItemRepository) *ItemService {
 	return &ItemService{
 		repo: repo,
 	}
@@ -39,9 +40,12 @@ func (s *ItemService) GetAll(filter string, page int, limit int) ([]models.Item,
 }
 
 func (s *ItemService) Add(item *models.Item) (*uuid.UUID, error) {
+	if err := validator.Validate(item); err != nil {
+		return nil, err
+	}
+
 	exists := s.repo.CheckIfNameExist(item.Name)
 	if exists {
-		//log.Println(err)
 		return nil, fmt.Errorf("name exist")
 	}
 
@@ -55,6 +59,10 @@ func (s *ItemService) Add(item *models.Item) (*uuid.UUID, error) {
 }
 
 func (s *ItemService) Update(item models.Item) error {
+	if err := validator.Validate(item); err != nil {
+		return err
+	}
+
 	extItem, err := s.repo.GetById(item.Id)
 	if err != nil || extItem == nil {
 		log.Println(err)

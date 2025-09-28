@@ -8,3 +8,4 @@ database:
 
 auth:
   secret: "secret"
+  exp_min: 1440 
