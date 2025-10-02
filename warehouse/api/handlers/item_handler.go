@@ -68,13 +68,13 @@ func (h *ItemHandler) GetAll(w http.ResponseWriter, r *http.Request) {
 }
 
 func (h *ItemHandler) Add(w http.ResponseWriter, r *http.Request) {
-	var item models.Item
-	if err := json.NewDecoder(r.Body).Decode(&item); err != nil {
+	var itemDto models.ItemCreateDto
+	if err := json.NewDecoder(r.Body).Decode(&itemDto); err != nil {
 		writeError(w, http.StatusBadRequest, "Invalid JSON")
 		return
 	}
 
-	id, err := h.service.Add(&item)
+	id, err := h.service.Add(&itemDto)
 	if err != nil {
 		writeError(w, http.StatusBadRequest, err.Error())
 		return
@@ -84,7 +84,7 @@ func (h *ItemHandler) Add(w http.ResponseWriter, r *http.Request) {
 }
 
 func (h *ItemHandler) Update(w http.ResponseWriter, r *http.Request) {
-	var item models.Item
+	var item models.ItemDto
 	if err := json.NewDecoder(r.Body).Decode(&item); err != nil {
 		writeError(w, http.StatusBadRequest, "Invalid JSON")
 		return
@@ -92,7 +92,7 @@ func (h *ItemHandler) Update(w http.ResponseWriter, r *http.Request) {
 
 	item.Id = h.extractUUIDs(r.URL.Path)[0]
 
-	if err := h.service.Update(item); err != nil {
+	if err := h.service.Update(&item); err != nil {
 		writeError(w, http.StatusBadRequest, err.Error())
 		return
 	}

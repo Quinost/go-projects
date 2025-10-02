@@ -1,5 +1,7 @@
 package models
 
+import "github.com/google/uuid"
+
 type Status string
 
 const (
@@ -9,9 +11,15 @@ const (
 	ErrorStatus   Status = "Error"
 )
 
+type ItemDto struct {
+	Id          uuid.UUID `json:"id"`
+	Name        string    `json:"name"`
+	Description string    `json:"description"`
+}
+
 type ItemCreateDto struct {
-	Name        string `json:"name"`
-	Description string `json:"description"`
+	Name        string `json:"name" validator:"required"`
+	Description string `json:"description" validator:"required"`
 }
 
 type LoginDto struct {

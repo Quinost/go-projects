@@ -6,12 +6,12 @@ import (
 
 type Item struct {
 	Id          uuid.UUID
-	Name        string `validator:"required"`
-	Description string `validator:"required"`
+	Name        string
+	Description string
 }
 
 type User struct {
 	Id       uuid.UUID
-	Username string `validator:"required"`
-	Password string `validator:"required"`
+	Username string
+	Password string
 }

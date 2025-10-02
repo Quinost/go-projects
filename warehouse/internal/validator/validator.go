@@ -18,7 +18,7 @@ func Validate(s any) error {
 	r_value := reflect.ValueOf(s)
 	r_type := reflect.TypeOf(s)
 
-	if r_value.Kind() == reflect.Ptr {
+	if r_value.Kind() == reflect.Pointer {
 		r_value = r_value.Elem()
 		r_type = r_type.Elem()
 	}

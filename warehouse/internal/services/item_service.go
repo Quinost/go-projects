@@ -39,7 +39,7 @@ func (s *ItemService) GetAll(filter string, page int, limit int) ([]models.Item,
 	return items, nil
 }
 
-func (s *ItemService) Add(item *models.Item) (*uuid.UUID, error) {
+func (s *ItemService) Add(item *models.ItemCreateDto) (*uuid.UUID, error) {
 	if err := validator.Validate(item); err != nil {
 		return nil, err
 	}
@@ -49,16 +49,21 @@ func (s *ItemService) Add(item *models.Item) (*uuid.UUID, error) {
 		return nil, fmt.Errorf("name exist")
 	}
 
-	item.Id = uuid.New()
-	if err := s.repo.Add(item); err != nil {
+	newItem := &models.Item{
+		Id: uuid.New(),
+		Name: item.Name,
+		Description: item.Description,
+	}
+
+	if err := s.repo.Add(newItem); err != nil {
 		log.Println(err)
 		return nil, fmt.Errorf("failed adding item")
 	}
 
-	return &item.Id, nil
+	return &newItem.Id, nil
 }
 
-func (s *ItemService) Update(item models.Item) error {
+func (s *ItemService) Update(item *models.ItemDto) error {
 	if err := validator.Validate(item); err != nil {
 		return err
 	}
@@ -69,7 +74,13 @@ func (s *ItemService) Update(item models.Item) error {
 		return fmt.Errorf("item not found")
 	}
 
-	if err := s.repo.Update(&item); err != nil {
+	updateItem := &models.Item{
+		Id: item.Id,
+		Name: item.Name,
+		Description: item.Description,
+	}
+
+	if err := s.repo.Update(updateItem); err != nil {
 		log.Println(err)
 		return fmt.Errorf("failed to update item")
 	}
